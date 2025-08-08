@@ -7,6 +7,7 @@ const ffmpegPath = require('ffmpeg-static');
 const ffmpeg = require('fluent-ffmpeg');
 
 ffmpeg.setFfmpegPath(ffmpegPath);
+ffmpeg.setFfprobePath(ffprobePath);
 
 const app = express();
 
@@ -38,9 +39,9 @@ app.post('/merge', upload.fields([{ name: 'affirmation' }, { name: 'music' }]), 
       return res.status(400).json({ error: 'Missing audio files. Expect fields "affirmation" and "music".' });
     }
 
-    const affPath = path.join('/tmp', `affirmation_${Date.now()}`);
-    const musPath = path.join('/tmp', `music_${Date.now()}`);
-    const outPath = path.join('/tmp', `headcast_${Date.now()}.mp3`);
+const affPath = path.join('/tmp', `affirmation_${Date.now()}.caf`);
+const musPath = path.join('/tmp', `music_${Date.now()}.mp3`);
+const outPath = path.join('/tmp', `headcast_${Date.now()}.mp3`);
 
     fs.writeFileSync(affPath, affirmationFile.buffer);
     fs.writeFileSync(musPath, musicFile.buffer);
