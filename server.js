@@ -48,6 +48,10 @@ const outPath = path.join('/tmp', `headcast_${Date.now()}.mp3`);
     fs.writeFileSync(musPath, musicFile.buffer);
     console.log('Wrote temp files:', { affPath, musPath });
 
+console.log('Affirmation file:', affPath, 'exists:', fs.existsSync(affPath), 'size:', fs.statSync(affPath).size);
+console.log('Music file:', musPath, 'exists:', fs.existsSync(musPath), 'size:', fs.statSync(musPath).size);
+
+
     await new Promise((resolve, reject) => {
       const proc = ffmpeg()
         .input(musPath)
@@ -56,7 +60,7 @@ const outPath = path.join('/tmp', `headcast_${Date.now()}.mp3`);
           `[0:a]volume=${blend}[music]`,
           `[1:a][music]amix=inputs=2:duration=longest:dropout_transition=3[a]`
         ])
-        .outputOptions(['-map [a]', '-c:a libmp3lame'])
+        .outputOptions(['-map [a]'])
         .on('start', cmd => console.log('ffmpeg start:', cmd))
         .on('progress', p => console.log('ffmpeg progress:', p))
         .on('stderr', line => console.log('ffmpeg stderr:', line))
