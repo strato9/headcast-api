@@ -1,8 +1,10 @@
+const ffmpegPath = require('ffmpeg-static');
+const ffmpeg = require('fluent-ffmpeg');
+ffmpeg.setFfmpegPath(ffmpegPath);
 // /api/merge.js
 import fs from 'fs';
 import path from 'path';
 import { IncomingForm } from 'formidable';
-import ffmpeg from 'fluent-ffmpeg';
 
 export const config = {
   api: {
